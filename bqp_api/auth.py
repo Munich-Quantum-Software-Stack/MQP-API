@@ -1,4 +1,4 @@
-from flask import request
+from flask import g
 import bcrypt
 import sys
 
@@ -6,13 +6,7 @@ import bqp_database_access as database
 
 
 def verify_token(token: str) -> bool:
-    quantum_db = database.open()
+    if (user := database.verify_token(token)) is None:
+        return False
 
-    print(f"verifying {token}", file=sys.stderr)
-
-    # return bcrypt.checkpw(
-    #
-    #     salted_token_hash,
-    # )
-
-    return True
+    g.user = user

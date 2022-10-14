@@ -13,7 +13,7 @@ def job_get_status():
     return "RUNNING STATUS"
 
 
-@blueprint.cancel("/job")
+@blueprint.delete("/job")
 def job_cancel():
     return "JOB CANCELLED"
 
