@@ -1,14 +1,17 @@
-from flask import Flask, abort, request
+from flask import Flask, abort, request, g
+from pony.flask import Pony
 import http
 import sys
 
 
+import bqp_database_access as database
+
 from . import version_1
-from .auth import verify_token
 
 
 def create_app():
     app = Flask(__name__)
+    Pony(app)
 
     app.register_blueprint(version_1.blueprint)
 
@@ -16,15 +19,23 @@ def create_app():
     def validate_token() -> None:
         # TODO refactor this
         try:
-            token = request.headers["Authorization"]
+            bearer_token = request.headers["Authorization"]
 
-            if token.startswith("Bearer ") and verify_token(token[7:]):
+            if (
+                bearer_token.startswith("Bearer ")
+                and (token := database.tokens.verify_token(bearer_token[7:]))
+                is not None
+            ):
+                g.user = token.owner
+                g.token = token
+
                 return
 
             else:
                 abort(http.HTTPStatus.FORBIDDEN.value)
 
-        except:
+        except Exception as error:
+            print(error)
             abort(http.HTTPStatus.FORBIDDEN.value)
 
     return app

@@ -10,7 +10,7 @@ version = "0.1"
 requires_python = ">=3.10"
 git = "ssh://git@gitlab-int.srv.lrz.de/lrz-qct-qis/bavarian-quantum-portal/bqp-database-access.git"
 ref = "develop"
-revision = "e91bd8aec6208b917cf654d6d791a0051c03ed60"
+revision = "7bb12f8b303b839778cb2fb65d76fe3b5d9b03cc"
 summary = "Allow access to the Quantum DB for the Bavarian Quantum Portal."
 dependencies = [
     "bcrypt>=4.0.0",
