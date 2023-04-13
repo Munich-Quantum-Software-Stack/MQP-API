@@ -9,8 +9,6 @@ dependencies = [
     "pony>=0.7.16",
     "flask>=2.2.2",
     "psycopg2-binary>=2.9.5",
-    "psycopg2>=2.9.5",
-    "psycopg2cffi>=2.9.0",
     "qiskit>=0.39.2",
     "BQP-Database-Access @ git+ssh://git@gitlab-int.srv.lrz.de/lrz-qct-qis/bavarian-quantum-portal/bqp-database-access.git@develop",
 ]
