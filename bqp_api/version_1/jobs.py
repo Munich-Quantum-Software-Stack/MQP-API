@@ -1,6 +1,9 @@
 from typing import Optional
 from flask import Blueprint, request, g
 
+from eliot import log_call
+
+
 blueprint = Blueprint("jobs", __name__)
 
 
@@ -14,6 +17,7 @@ def _get_job(uuid: str) -> Optional["Job"]:
 
 
 @blueprint.post("/job")
+@log_call
 def job_creation():
     shots = request.json["shots"]
     circuit = request.json["circuit"]
@@ -22,6 +26,7 @@ def job_creation():
 
 
 @blueprint.get("/job/<uuid>")
+@log_call
 def job(uuid):
     job = _get_job(uuid)
     if job is None:
@@ -36,6 +41,7 @@ def job(uuid):
 
 
 @blueprint.get("/job/<uuid>/status")
+@log_call
 def job_get_status(uuid):
     job = _get_job(uuid)
     if job is None:
@@ -44,6 +50,7 @@ def job_get_status(uuid):
 
 
 @blueprint.get("/job/<uuid>/result")
+@log_call
 def job_result(uuid):
     job = _get_job(uuid)
     if job is None:
@@ -53,6 +60,7 @@ def job_result(uuid):
 
 
 @blueprint.delete("/job/<uuid>")
+@log_call
 def job_cancel(uuid):
     job = _get_job(uuid)
     if job is None:

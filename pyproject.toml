@@ -11,6 +11,7 @@ dependencies = [
     "psycopg2-binary>=2.9.5",
     "qiskit>=0.39.2",
     "BQP-Database-Access @ git+ssh://git@gitlab-int.srv.lrz.de/lrz-qct-qis/bavarian-quantum-portal/bqp-database-access.git@develop",
+    "eliot>=1.14.0",
 ]
 requires-python = ">=3.10,<3.11"
 license = {text = "MIT"}
