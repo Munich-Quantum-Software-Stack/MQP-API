@@ -2,6 +2,7 @@ from flask import Flask, abort, request, g
 from pony.flask import Pony
 import http
 import sys
+from os import getpid
 
 
 from eliot import log_call, to_file, log_message
@@ -14,7 +15,7 @@ from . import version_1
 
 @log_call
 def create_app():
-    to_file(open("bqp_api.log", "a"))
+    to_file(open(f"bqp_api_{getpid()}.log", "a"))
 
     app = Flask(__name__)
     Pony(app)
