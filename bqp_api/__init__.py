@@ -4,20 +4,26 @@ import http
 import sys
 
 
+from eliot import log_call, to_file, log_message
+
+
 import bqp_database_access as database
 
 from . import version_1
 
 
+@log_call
 def create_app():
+    to_file(open("bqp_api.log", "a"))
+
     app = Flask(__name__)
     Pony(app)
 
     app.register_blueprint(version_1.blueprint)
 
     @app.before_request
+    @log_call
     def validate_token() -> None:
-        # TODO refactor this
         try:
             bearer_token = request.headers["Authorization"]
 
@@ -32,7 +38,11 @@ def create_app():
                 return
 
             else:
-                print(bearer_token, token)
+                log_message(
+                    message_type="database rejected token",
+                    bearer_token=bearer_token,
+                    database_response=token,
+                )
 
                 abort(http.HTTPStatus.FORBIDDEN.value)
 
