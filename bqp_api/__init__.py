@@ -32,6 +32,8 @@ def create_app():
                 return
 
             else:
+                print(bearer_token, token)
+
                 abort(http.HTTPStatus.FORBIDDEN.value)
 
         except Exception as error:
