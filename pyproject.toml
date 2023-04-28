@@ -1,29 +1,23 @@
-[project]
-name = "BQP API"
-version = "0.1"
-description = "The BQP API provides programmatic and external access to the Bavarian Quantum resources."
-authors = [
-    {name = "Martin Ruefenacht", email = "martin.ruefenacht@lrz.de"},
-]
-dependencies = [
-    "pony>=0.7.16",
-    "flask>=2.2.2",
-    "psycopg2-binary>=2.9.5",
-    "qiskit>=0.39.2",
-    "BQP-Database-Access @ git+ssh://git@gitlab-int.srv.lrz.de/lrz-qct-qis/bavarian-quantum-portal/bqp-database-access.git@develop",
-]
-requires-python = ">=3.10,<3.11"
-license = {text = "MIT"}
-[project.optional-dependencies]
+[tool.poetry]
+name = "bqp-api"
+version = "0.1.0"
+description = ""
+authors = ["Martin Ruefenacht <martin.ruefenacht@lrz.de>"]
+readme = "README.md"
+packages = [{include = "bqp_api"}]
+
+[tool.poetry.dependencies]
+python = "~3.10"
+flask = "^2.3"
+pony = "^0.7"
+bqp-database-access = "^0.1.0"
+
+[[tool.poetry.source]]
+name = "lrz"
+url = "http://10.195.4.40:8080/"
+default = false
+secondary = true
 
 [build-system]
-requires = ["pdm-pep517>=1.0.0"]
-build-backend = "pdm.pep517.api"
-
-[tool]
-[tool.pdm]
-[tool.pdm.dev-dependencies]
-dev = [
-    "black>=22.10.0",
-    "mypy>=0.982",
-]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
