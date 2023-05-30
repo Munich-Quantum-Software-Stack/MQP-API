@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bqp-api"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Martin Ruefenacht <martin.ruefenacht@lrz.de>"]
 readme = "README.md"
