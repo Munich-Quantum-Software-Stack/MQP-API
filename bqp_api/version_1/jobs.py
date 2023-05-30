@@ -17,7 +17,10 @@ def _get_job(uuid: str) -> Optional["Job"]:
 def job_creation():
     shots = request.json["shots"]
     circuit = request.json["circuit"]
-    job = database.jobs.create_job(shots, circuit, g.token)
+    resource_name = request.json["resource_name"]
+
+    job = database.jobs.create_job(shots, circuit, g.token, resource_name)
+
     return {"uuid": str(job.id)}, 201
 
 
