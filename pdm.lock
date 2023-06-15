@@ -15,7 +15,7 @@ summary = "Fast, simple object-to-object and broadcast signaling"
 
 [[package]]
 name = "bqp-database-access"
-version = "0.1.9"
+version = "0.1.10"
 requires_python = ">=3.10"
 summary = ""
 dependencies = [
@@ -127,9 +127,9 @@ content_hash = "sha256:fdb907d3da6f11ad31e0b927fed15a10818095f4360a4d49c89edb090
     {url = "https://files.pythonhosted.org/packages/0d/f1/5f39e771cd730d347539bb74c6d496737b9d5f0a53bc9fdbf3e170f1ee48/blinker-1.6.2-py3-none-any.whl", hash = "sha256:c3d739772abb7bc2860abf5f2ec284223d9ad5c76da018234f6f50d6f31ab1f0"},
     {url = "https://files.pythonhosted.org/packages/e8/f9/a05287f3d5c54d20f51a235ace01f50620984bc7ca5ceee781dc645211c5/blinker-1.6.2.tar.gz", hash = "sha256:4afd3de66ef3a9f8067559fb7a1cbe555c17dcbe15971b05d1b625c3e7abe213"},
 ]
-"bqp-database-access 0.1.9" = [
-    {url = "http://10.195.4.40:8080/packages/bqp_database_access-0.1.9-py3-none-any.whl", hash = "sha256:6955d009804e2ed83ef4626a9b45d4d60d386b52342811518c47be49af2282b5"},
-    {url = "http://10.195.4.40:8080/packages/bqp_database_access-0.1.9.tar.gz", hash = "sha256:bdeeb880108e3057a4b05ccc17e4c416ae9909deb22018a3e2aa07f337f08935"},
+"bqp-database-access 0.1.10" = [
+    {url = "http://10.195.4.40:8080/packages/bqp_database_access-0.1.10-py3-none-any.whl", hash = "sha256:06c7074b533b20222ca1e8790f73e3e9de1194c58f5c66240e37010a3e493ac6"},
+    {url = "http://10.195.4.40:8080/packages/bqp_database_access-0.1.10.tar.gz", hash = "sha256:ea25686d32942bd135bc7317767ce9bf2c8c55972400f22e7c6f54920a142212"},
 ]
 "click 8.1.3" = [
     {url = "https://files.pythonhosted.org/packages/59/87/84326af34517fca8c58418d148f2403df25303e02736832403587318e9e8/click-8.1.3.tar.gz", hash = "sha256:7682dc8afb30297001674575ea00d1814d808d6a36af415a82bd481d37ba7b8e"},

@@ -17,9 +17,16 @@ def _get_job(uuid: str) -> Optional["Job"]:
 def job_creation():
     shots = request.json["shots"]
     circuit = request.json["circuit"]
+    circuit_format = request.json["circuit_format"]
     resource_name = request.json["resource_name"]
 
-    job = database.jobs.create_job(shots, circuit, g.token, resource_name)
+    job = database.jobs.create_job(
+        shots=shots,
+        circuit=circuit,
+        token=g.token,
+        resource_name=resource_name,
+        circuit_format=circuit_format,
+    )
 
     return {"uuid": str(job.id)}, 201
 
@@ -62,3 +69,11 @@ def job_cancel(uuid):
         return "JOB NOT FOUND", 404
     job.status = "CANCELLED"
     return "OK"
+
+
+@blueprint.get("/job/<uuid>/cancel_reason")
+def job_get_cancel_reason(uuid):
+    job = _get_job(uuid)
+    if job is None:
+        return "JOB NOT FOUND", 404
+    return {"cancel_reason": job.cancel_reason}
