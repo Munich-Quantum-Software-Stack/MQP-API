@@ -39,7 +39,7 @@ requires-python = ">=3.10,<3.11"
 dependencies = [
     "flask>=2.3.2",
     "pony<1.0,>=0.7",
-    "bqp-database-access<1.0.0,>=0.1.0",
+    "bqp-database-access<0.2,>=0.1.0",
 ]
 name = "bqp-api"
 version = "0.1.1"
