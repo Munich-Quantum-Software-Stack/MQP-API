@@ -2,13 +2,13 @@
 authors = [
     {name = "Martin Ruefenacht", email = "martin.ruefenacht@lrz.de"},
 ]
-requires-python = ">=3.10,<3.11"
+requires-python = ">=3.10"
 dependencies = [
-    "flask>=2.3.2",
-    "pony<1.0,>=0.7",
-    "bqp-database-access<0.2,>=0.1.0",
+    "flask>=2.3",
+    "pony>=0.7",
+    "bqp-database-access>=0.2",
 ]
 name = "bqp-api"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 readme = "README.md"
