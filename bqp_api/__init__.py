@@ -6,7 +6,12 @@ import sys
 
 import bqp_database_access as database
 
+
 from . import version_1
+
+
+class TokenNotRecognized(Exception):
+    pass
 
 
 def create_app():
@@ -32,12 +37,9 @@ def create_app():
                 return
 
             else:
-                print(bearer_token, token)
-
-                abort(http.HTTPStatus.FORBIDDEN.value)
+                raise TokenNotRecognized
 
         except Exception as error:
-            print(error)
             abort(http.HTTPStatus.FORBIDDEN.value)
 
     return app
