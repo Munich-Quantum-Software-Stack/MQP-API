@@ -29,3 +29,8 @@ env = [
     "QUANTUM_DB_HOST="
 ]
 pythonpath = ["."]
+
+[[tool.pdm.source]]
+name = "lrz_pypi"
+url = "http://pypi.quantum.lrz.de:8080/"
+verify_ssl = false
