@@ -2,6 +2,7 @@ from flask import Flask, abort, request, g
 from pony.flask import Pony
 import http
 import sys
+from eliot import log_call
 
 
 import bqp_database_access as database
@@ -21,6 +22,7 @@ def create_app():
     app.register_blueprint(version_1.blueprint)
 
     @app.before_request
+    @log_call
     def validate_token() -> None:
         # TODO refactor this
         try:
