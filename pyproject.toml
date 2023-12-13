@@ -10,6 +10,7 @@ dependencies = [
     "pony>=0.7",
     "eliot[journald]>=1.15.0",
     "bqp-database-access>=0.2.21",
+    "gunicorn>=21.2.0",
 ]
 description = ""
 readme = "README.md"
