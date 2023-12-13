@@ -4,12 +4,12 @@ version = "0.1.4"
 authors = [
     {name = "Martin Ruefenacht", email = "martin.ruefenacht@lrz.de"},
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.10,<3.12"
 dependencies = [
     "flask>=2.3",
     "pony>=0.7",
-    "bqp-database-access>=0.2",
     "eliot[journald]>=1.15.0",
+    "bqp-database-access>=0.2.21",
 ]
 description = ""
 readme = "README.md"
