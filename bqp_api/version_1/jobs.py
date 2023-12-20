@@ -20,7 +20,7 @@ def job_creation():
     bearer_token = request.headers["Authorization"]
     bearer_token.startswith("Bearer ")
     owner_id = database.tokens.verify_token(bearer_token[7:]).owner.identity
-    _budgets = database.budgets.fetch_budgets_of_identity(identity=owner_id)
+    _budgets = list(database.budgets.fetch_budgets_of_identity(identity=owner_id))
     job = database.jobs.create_job(
         shots=request.json["shots"],
         circuit=request.json["circuit"],
