@@ -16,14 +16,18 @@ def resource_to_json(resource: "Resource") -> dict:
 @blueprint.route("/resources")
 @log_call
 def resources():
-    resources = database.resources.fetch_resources_available_to_identity(g.user.email)
+    resources = database.resources.fetch_resources_available_to_identity(
+        g.user.identity
+    )
     return {resource.name: resource_to_json(resource) for resource in resources}
 
 
 @blueprint.route("/resources/<resource_name>")
 @log_call
 def resource(resource_name):
-    resources = database.resources.fetch_resources_available_to_identity(g.user.email)
+    resources = database.resources.fetch_resources_available_to_identity(
+        g.user.identity
+    )
     resource = next((x for x in resources if x.name == resource_name), None)
     if resource is None:
         return "RESOURCE NOT FOUND", 404
