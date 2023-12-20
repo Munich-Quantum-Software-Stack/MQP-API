@@ -17,12 +17,13 @@ def _get_job(uuid: str) -> Optional["Job"]:
 @blueprint.post("/job")
 @log_call
 def job_creation():
+    bearer_token = request.headers["Authorization"]
+    bearer_token.startswith("Bearer ")
     job = database.jobs.create_job(
         shots=request.json["shots"],
         circuit=request.json["circuit"],
-        owner=request.json["owner"],
-        budget=request.json["budget"],
-        target_spec=request.json["target_spec"],
+        token=bearer_token[7:],
+        target_spec=request.json["resource_name"],
         circuit_format=request.json["circuit_format"],
     )
 
