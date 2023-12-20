@@ -53,7 +53,7 @@ files = [
 
 [[package]]
 name = "bqp-database-access"
-version = "0.2.22"
+version = "0.2.25"
 requires_python = "<3.12,>=3.10"
 summary = ""
 dependencies = [
@@ -62,8 +62,8 @@ dependencies = [
     "psycopg2-binary>=2.9",
 ]
 files = [
-    {file = "bqp_database_access-0.2.22-py3-none-any.whl", hash = "sha256:e09af0ab864ab578ef707100e7d9f62a3040a288d019a67c70b1fbcd98d28dde"},
-    {file = "bqp_database_access-0.2.22.tar.gz", hash = "sha256:0623eb501dd9e5a3295f7025b7b2e8db88216abfd901efb458950e6ca1c5e643"},
+    {file = "bqp_database_access-0.2.25-py3-none-any.whl", hash = "sha256:c98545da865d173db4697d2e861edcd4a49afa66282a6e622ecc16087b7969c8"},
+    {file = "bqp_database_access-0.2.25.tar.gz", hash = "sha256:2a3c59d0e769c37203b5572a34e3eb47da501efddbfd6dda9ce58fdee635b2c6"},
 ]
 
 [[package]]
