@@ -20,12 +20,14 @@ def job_creation():
     bearer_token = request.headers["Authorization"]
     bearer_token.startswith("Bearer ")
     owner_id = database.tokens.verify_token(bearer_token[7:]).owner.identity
-    _budgets = list(database.budgets.fetch_budgets_of_identity(identity=owner_id))
+    # TODO It is just a tmp fix. Get budget of the user here.
+    _budget = "temp_budget"
+    # TODO Also check if the resource_name is available
     job = database.jobs.create_job(
         shots=request.json["shots"],
         circuit=request.json["circuit"],
         owner=owner_id,
-        budget=_budgets[0].name,
+        budget=_budget,
         target_spec=request.json["resource_name"],
         circuit_format=request.json["circuit_format"],
     )
