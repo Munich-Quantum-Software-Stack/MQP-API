@@ -9,7 +9,7 @@ import bqp_database_access as database
 
 
 def _get_job(uuid: str) -> Optional["Job"]:
-    jobs = database.jobs.fetch_by_identity(g.user.email)
+    jobs = database.jobs.fetch_by_identity(g.user.identity)
     job = next((x for x in jobs if str(x.id) == uuid), None)
     return job
 
@@ -25,7 +25,7 @@ def job_creation():
         shots=request.json["shots"],
         circuit=request.json["circuit"],
         owner=owner_id,
-        budget=_budgets[0],
+        budget=_budgets[0].name,
         target_spec=request.json["resource_name"],
         circuit_format=request.json["circuit_format"],
     )
