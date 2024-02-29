@@ -10,7 +10,7 @@ ARG QUANTUM_DB_HOST
 RUN apt update && apt install -y git
 
 RUN mkdir -p /bqp-api-server
-COPY bqp-api /bqp-api-server/
+COPY bqp_api /bqp-api-server/
 COPY gunicorn.conf.py /bqp-api-server/
 COPY pyproject.toml /bqp-api-server/
 WORKDIR /bqp-api-server
