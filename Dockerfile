@@ -9,9 +9,11 @@ ARG QUANTUM_DB_HOST
 
 RUN apt update && apt install -y git
 
-RUN mkdir -p /bqp-api
-COPY * /bqp-api/
-WORKDIR /bqp-api
+RUN mkdir -p /bqp-api-server
+COPY bqp-api /bqp-api-server/
+COPY gunicorn.conf.py /bqp-api-server/
+COPY pyproject.toml /bqp-api-server/
+WORKDIR /bqp-api-server
 
 RUN pip install pdm
 RUN pdm install
