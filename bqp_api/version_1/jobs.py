@@ -88,4 +88,4 @@ def job_get_cancel_reason(uuid):
 
     if job is None:
         return "JOB NOT FOUND", 404
-    return {"cancel_reason": job.cancel_reason}
+    return {"cancel_reason": job.note}
