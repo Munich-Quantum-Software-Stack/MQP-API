@@ -1,5 +1,5 @@
 from typing import Optional
-from flask import Blueprint, request, g
+from flask import Blueprint, request, g, jsonify
 from eliot import log_call
 
 blueprint = Blueprint("jobs", __name__)
@@ -20,6 +20,13 @@ def job_creation():
     bearer_token = request.headers["Authorization"]
     bearer_token.startswith("Bearer ")
     owner_id = database.tokens.verify_token(bearer_token[7:]).owner.identity
+
+    _target = request.json["resource_name"]
+    if _target is not None:
+        available_targets = database.resources.fetch_all_target_specification_names()
+        if not request.json["resource_name"] in available_targets:
+            return jsonify("BACKEND NOT FOUND"), 404
+
     # TODO It is just a tmp fix. Get budget of the user here.
     _budget = "temp_budget"
     # TODO Also check if the resource_name is available
@@ -40,7 +47,7 @@ def job_creation():
 def job(uuid):
     job = _get_job(uuid)
     if job is None:
-        return "JOB NOT FOUND", 404
+        return jsonify("JOB NOT FOUND"), 404
 
     return {
         # TODO: Add more fields
@@ -56,7 +63,7 @@ def job(uuid):
 def job_get_status(uuid):
     job = _get_job(uuid)
     if job is None:
-        return "JOB NOT FOUND", 404
+        return jsonify("JOB NOT FOUND"), 404
     return {"status": job.status}
 
 
@@ -65,7 +72,7 @@ def job_get_status(uuid):
 def job_result(uuid):
     job = _get_job(uuid)
     if job is None:
-        return "JOB NOT FOUND", 404
+        return jsonify("JOB NOT FOUND"), 404
     result = job.result
     return {"result": result}
 
@@ -75,7 +82,7 @@ def job_result(uuid):
 def job_cancel(uuid):
     job = _get_job(uuid)
     if job is None:
-        return "JOB NOT FOUND", 404
+        return jsonify("JOB NOT FOUND"), 404
 
     job.status = "CANCELLED"
     return "OK"
@@ -87,5 +94,5 @@ def job_get_cancel_reason(uuid):
     job = _get_job(uuid)
 
     if job is None:
-        return "JOB NOT FOUND", 404
+        return jsonify("JOB NOT FOUND"), 404
     return {"cancel_reason": job.note}
