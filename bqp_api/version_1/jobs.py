@@ -37,6 +37,7 @@ def job_creation():
         budget=_budget,
         target_spec=request.json["resource_name"],
         circuit_format=request.json["circuit_format"],
+        no_modify=request.json["no_modify"],
     )
 
     return {"uuid": str(job.id)}, 201

@@ -10,6 +10,8 @@ def resource_to_json(resource: "Resource") -> dict:
     return {
         "name": resource.name,
         "qubits": resource.qubits,
+        "connectivity": resource.connectivity,
+        "instructions": resource.instructions,
     }
 
 
