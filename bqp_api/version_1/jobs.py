@@ -1,6 +1,7 @@
 from typing import Optional
-from flask import Blueprint, request, g, jsonify
+
 from eliot import log_call
+from flask import Blueprint, g, jsonify, request
 
 blueprint = Blueprint("jobs", __name__)
 
@@ -9,8 +10,9 @@ import bqp_database_access as database
 
 
 def _get_job(uuid: str) -> Optional["Job"]:
-    jobs = database.jobs.fetch_by_identity(g.user.identity)
-    job = next((x for x in jobs if str(x.id) == uuid), None)
+
+    job = database.jobs.fetch_result_by_job_id_and_identity(uuid, g.user.identity)
+
     return job
 
 
