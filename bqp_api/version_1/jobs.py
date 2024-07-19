@@ -32,6 +32,10 @@ def job_creation():
     # TODO It is just a tmp fix. Get budget of the user here.
     _budget = "temp_budget"
     # TODO Also check if the resource_name is available
+    try:
+        no_modify = request.json["no_modify"]
+    except KeyError:
+        no_modify = False
     job = database.jobs.create_job(
         shots=request.json["shots"],
         circuit=request.json["circuit"],
@@ -39,7 +43,7 @@ def job_creation():
         budget=_budget,
         target_spec=request.json["resource_name"],
         circuit_format=request.json["circuit_format"],
-        no_modify=request.json["no_modify"],
+        no_modify=no_modify,
     )
 
     return {"uuid": str(job.id)}, 201
