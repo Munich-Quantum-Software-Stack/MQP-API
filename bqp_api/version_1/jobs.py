@@ -81,7 +81,26 @@ def job_result(uuid):
     if job is None:
         return jsonify("JOB NOT FOUND"), 404
     result = job.result
-    return {"result": result}
+    try:
+        timestamp_scheduled = (
+            str(job.timestamp_scheduled) if job.timestamp_scheduled else ""
+        )
+        timestamp_submitted = (
+            str(job.timestamp_submitted) if job.timestamp_submitted else ""
+        )
+        timestamp_completed = (
+            str(job.timestamp_completed) if job.timestamp_completed else ""
+        )
+
+    except AttributeError:
+        timestamp_completed = ""
+
+    return {
+        "result": result,
+        "timestamp_scheduled": timestamp_scheduled,
+        "timestamp_submitted": timestamp_submitted,
+        "timestamp_completed": timestamp_completed,
+    }
 
 
 @blueprint.delete("/job/<uuid>")
