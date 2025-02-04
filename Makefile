@@ -7,6 +7,4 @@ build-image:
 
 push-image:
 	docker tag bqp-api:${VERSION} ${DOCKERHUB}/bqp-api:${VERSION}
-	docker tag ${DOCKERHUB}/bqp-api:${VERSION} ${DOCKERHUB}/bqp-api
 	docker push ${DOCKERHUB}/bqp-api:${VERSION}
-	docker push ${DOCKERHUB}/bqp-api

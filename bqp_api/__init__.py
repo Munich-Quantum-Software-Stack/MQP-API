@@ -1,12 +1,10 @@
-from flask import Flask, abort, request, g
-from pony.flask import Pony
 import http
 import sys
-from eliot import log_call
 
-
-import bqp_database_access as database
-
+import bqp_database_access as database  # type: ignore
+from eliot import log_call  # type: ignore
+from flask import Flask, abort, g, request
+from pony.flask import Pony  # type: ignore
 
 from . import version_1
 
@@ -38,10 +36,9 @@ def create_app():
 
                 return
 
-            else:
-                raise TokenNotRecognized
+            raise TokenNotRecognized
 
-        except Exception as error:
+        except Exception as _:
             abort(http.HTTPStatus.FORBIDDEN.value)
 
     return app

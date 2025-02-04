@@ -1,19 +1,17 @@
 from typing import Optional
 
-from eliot import log_call
+import bqp_database_access as database  # type: ignore
+from eliot import log_call  # type: ignore
 from flask import Blueprint, g, jsonify, request
 
 blueprint = Blueprint("jobs", __name__)
 
 
-import bqp_database_access as database
+def _get_job(uuid: str) -> Optional["Job"]:  # type: ignore
 
+    _job = database.jobs.fetch_result_by_job_id_and_identity(uuid, g.user.identity)
 
-def _get_job(uuid: str) -> Optional["Job"]:
-
-    job = database.jobs.fetch_result_by_job_id_and_identity(uuid, g.user.identity)
-
-    return job
+    return _job
 
 
 @blueprint.post("/job")
@@ -36,7 +34,7 @@ def job_creation():
         no_modify = request.json["no_modify"]
     except KeyError:
         no_modify = False
-    job = database.jobs.create_job(
+    _job = database.jobs.create_job(
         shots=request.json["shots"],
         circuit=request.json["circuit"],
         owner=owner_id,
@@ -46,50 +44,50 @@ def job_creation():
         no_modify=no_modify,
     )
 
-    return {"uuid": str(job.id)}, 201
+    return {"uuid": str(_job.id)}, 201
 
 
 @blueprint.get("/job/<uuid>")
 @log_call
 def job(uuid):
-    job = _get_job(uuid)
-    if job is None:
+    _job = _get_job(uuid)
+    if _job is None:
         return jsonify("JOB NOT FOUND"), 404
 
     return {
         # TODO: Add more fields
-        "id": job.id,
-        "shots": job.shots,
-        "result": job.result,
-        "status": job.status,
+        "id": _job.id,
+        "shots": _job.shots,
+        "result": _job.result,
+        "status": _job.status,
     }
 
 
 @blueprint.get("/job/<uuid>/status")
 @log_call
 def job_get_status(uuid):
-    job = _get_job(uuid)
-    if job is None:
+    _job = _get_job(uuid)
+    if _job is None:
         return jsonify("JOB NOT FOUND"), 404
-    return {"status": job.status}
+    return {"status": _job.status}
 
 
 @blueprint.get("/job/<uuid>/result")
 @log_call
 def job_result(uuid):
-    job = _get_job(uuid)
-    if job is None:
+    _job = _get_job(uuid)
+    if _job is None:
         return jsonify("JOB NOT FOUND"), 404
-    result = job.result
+    result = _job.result
     try:
         timestamp_scheduled = (
-            str(job.timestamp_scheduled) if job.timestamp_scheduled else ""
+            str(_job.timestamp_scheduled) if _job.timestamp_scheduled else ""
         )
         timestamp_submitted = (
-            str(job.timestamp_submitted) if job.timestamp_submitted else ""
+            str(_job.timestamp_submitted) if _job.timestamp_submitted else ""
         )
         timestamp_completed = (
-            str(job.timestamp_completed) if job.timestamp_completed else ""
+            str(_job.timestamp_completed) if _job.timestamp_completed else ""
         )
 
     except AttributeError:
@@ -106,19 +104,19 @@ def job_result(uuid):
 @blueprint.delete("/job/<uuid>")
 @log_call
 def job_cancel(uuid):
-    job = _get_job(uuid)
-    if job is None:
+    _job = _get_job(uuid)
+    if _job is None:
         return jsonify("JOB NOT FOUND"), 404
 
-    job.status = "CANCELLED"
+    _job.status = "CANCELLED"
     return "OK"
 
 
 @blueprint.get("/job/<uuid>/cancel_reason")
 @log_call
 def job_get_cancel_reason(uuid):
-    job = _get_job(uuid)
+    _job = _get_job(uuid)
 
-    if job is None:
+    if _job is None:
         return jsonify("JOB NOT FOUND"), 404
-    return {"cancel_reason": job.note}
+    return {"cancel_reason": _job.note}
