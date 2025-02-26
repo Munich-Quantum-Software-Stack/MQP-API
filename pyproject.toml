@@ -1,6 +1,6 @@
 [project]
 name = "bqp-api"
-version = "0.1.17"
+version = "0.1.18"
 authors = [
     {name = "Martin Ruefenacht", email = "martin.ruefenacht@lrz.de"},
 ]
@@ -9,7 +9,7 @@ dependencies = [
     "flask>=2.3",
     "pony>=0.7",
     "eliot[journald]>=1.15.0",
-    "bqp-database-access>=0.3.0",
+    "bqp-database-access>=0.3.1",
     "gunicorn>=21.2.0",
 ]
 description = ""
