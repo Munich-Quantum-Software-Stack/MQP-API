@@ -6,7 +6,7 @@ authors = [
 ]
 requires-python = ">=3.10,<3.12"
 dependencies = [
-    "flask>=2.3",
+    "flask>=3.1.0",
     "pony>=0.7",
     "eliot[journald]>=1.15.0",
     "bqp-database-access>=0.3.1",
