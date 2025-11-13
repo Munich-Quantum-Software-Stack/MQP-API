@@ -6,23 +6,15 @@ from flask import Blueprint, g, request
 
 blueprint = Blueprint("job_metrics", __name__)
 
-def _get_job_metrics(uuid: str) -> Optional["JobMetrics"]:  # type: ignore
-    job_metrics = database.job_metrics.fetch_job_metrics_by_identity(uuid)
-    return job_metrics[0] if job_metrics else None
-
-# def _get_hamiltonian_job(uuid: str) -> Optional["JobMetrics"]:  # type: ignore
-#     # jobs = database.jobs.fetch_hamiltonian_job_by_identity(g.user.identity) Todo: after the method is implemented
-#     job = next((x for x in jobs if str(x.id) == uuid), None)
-#     return job
 
 @blueprint.get("/job_metrics/<uuid>/stats")
 @log_call
 def job_metrics(uuid):
-    _job_metrics = database.job_metrics.fill(uuid)
+    _job_metrics = database.job_metrics.fetch_job_metrics_by_identity(uuid)(uuid)
     if _job_metrics is None:
         return "JOB METRICS NOT FOUND", 404
 
-    return {"job_metrics":{
+    return {
         "id": _job_metrics.id,
         "API": _job_metrics.API_exit - _job_metrics.API_entry,
         "QDB": _job_metrics.QDB_exit - _job_metrics.QDB_entry,
@@ -37,4 +29,4 @@ def job_metrics(uuid):
         "Pass_selection": _job_metrics.Pass_selection_exit - _job_metrics.Pass_selection_entry,
         "Knitter": _job_metrics.Knitter_exit - _job_metrics.Knitter_entry,
         "Job_execution": _job_metrics.Job_execution_end - _job_metrics.Job_execution_start
-    }}
+    }
