@@ -10,23 +10,43 @@ blueprint = Blueprint("job_metrics", __name__)
 @blueprint.get("/job_metrics/<uuid>/stats")
 @log_call
 def job_metrics(uuid):
-    _job_metrics = database.job_metrics.fetch_job_metrics_by_identity(uuid)(uuid)
+    try:
+        _job_metrics = database.job_metrics.fetch_timestamp_data_by_identity(uuid)[0]
+    except Exception as e:
+        return "JOB METRICS NOT FOUND", 404
+
     if _job_metrics is None:
         return "JOB METRICS NOT FOUND", 404
 
+    def _diff(exit_ts, entry_ts):
+        # return None if either timestamp is missing (optional fields)
+        if exit_ts is None or entry_ts is None:
+            return None
+        delta = exit_ts - entry_ts
+        return str(delta.total_seconds())
+
     return {
-        "id": _job_metrics.id,
-        "API": _job_metrics.API_exit - _job_metrics.API_entry,
-        "QDB": _job_metrics.QDB_exit - _job_metrics.QDB_entry,
-        "QJR": _job_metrics.QJR_exit - _job_metrics.QJR_entry,
-        "ISV_JR": _job_metrics.ISV_JR_exit - _job_metrics.ISV_JR_entry,
-        "Quantum_Daemon_JR": _job_metrics.Quantum_Daemon_JR_exit - _job_metrics.Quantum_Daemon_JR_entry,
-        "Generator": _job_metrics.Generator_exit - _job_metrics.Generator_entry,
-        "Scheduler": _job_metrics.Scheduler_exit - _job_metrics.Scheduler_entry,
-        "Pass_runner": _job_metrics.Pass_runner_exit - _job_metrics.Pass_runner_entry,
-        "Transpiler": _job_metrics.Trnaspiler_exit - _job_metrics.Transpiler_entry,
-        "Submitter": _job_metrics.Submitter_exit - _job_metrics.Submitter_entry,
-        "Pass_selection": _job_metrics.Pass_selection_exit - _job_metrics.Pass_selection_entry,
-        "Knitter": _job_metrics.Knitter_exit - _job_metrics.Knitter_entry,
-        "Job_execution": _job_metrics.Job_execution_end - _job_metrics.Job_execution_start
+        "API": _diff(_job_metrics.api_exit, _job_metrics.api_entry),
+        "QDB": _diff(_job_metrics.qdb_exit, _job_metrics.qdb_entry),
+        "QJR": _diff(_job_metrics.qjr_exit, _job_metrics.qjr_entry),
+        "ISV_JR": _diff(_job_metrics.isv_jr_exit, _job_metrics.isv_jr_entry),
+        "Quantum_Daemon_JR": _diff(
+            _job_metrics.quantum_daemon_jr_exit, _job_metrics.quantum_daemon_jr_entry
+        ),
+        "Generator": _diff(_job_metrics.generator_exit, _job_metrics.generator_entry),
+        "Scheduler": _diff(_job_metrics.scheduler_exit, _job_metrics.scheduler_entry),
+        "Pass_runner": _diff(
+            _job_metrics.pass_runner_exit, _job_metrics.pass_runner_entry
+        ),
+        "Transpiler": _diff(
+            _job_metrics.transpiler_exit, _job_metrics.transpiler_entry
+        ),
+        "Submitter": _diff(_job_metrics.submitter_exit, _job_metrics.submitter_entry),
+        "Pass_selection": _diff(
+            _job_metrics.pass_selection_exit, _job_metrics.pass_selection_entry
+        ),
+        "Knitter": _diff(_job_metrics.knitter_exit, _job_metrics.knitter_entry),
+        "Job_execution": _diff(
+            _job_metrics.job_execution_end, _job_metrics.job_execution_start
+        ),
     }
