@@ -7,11 +7,11 @@ from flask import Blueprint, g, request
 blueprint = Blueprint("job_metrics", __name__)
 
 
-@blueprint.get("/job_metrics/<uuid>/stats")
+@blueprint.get("/job/<uuid>/stats")
 @log_call
 def job_metrics(uuid):
     try:
-        _job_metrics = database.job_metrics.fetch_timestamp_data_by_identity(uuid)[0]
+        _job_metrics = database.job_metrics.fetch_timestamp_data_by_job_id(uuid)[0]
     except Exception as e:
         return "JOB METRICS NOT FOUND", 404
 
@@ -26,27 +26,27 @@ def job_metrics(uuid):
         return str(delta.total_seconds())
 
     return {
-        "API": _diff(_job_metrics.api_exit, _job_metrics.api_entry),
-        "QDB": _diff(_job_metrics.qdb_exit, _job_metrics.qdb_entry),
-        "QJR": _diff(_job_metrics.qjr_exit, _job_metrics.qjr_entry),
-        "ISV_JR": _diff(_job_metrics.isv_jr_exit, _job_metrics.isv_jr_entry),
-        "Quantum_Daemon_JR": _diff(
+        "mqp_api": _diff(_job_metrics.api_exit, _job_metrics.api_entry),
+        "quantum_database": _diff(_job_metrics.qdb_exit, _job_metrics.qdb_entry),
+        "quantum_job_runner": _diff(_job_metrics.qjr_exit, _job_metrics.qjr_entry),
+        "isv_job_runner": _diff(_job_metrics.isv_jr_exit, _job_metrics.isv_jr_entry),
+        "quantum_daemon_job_runner": _diff(
             _job_metrics.quantum_daemon_jr_exit, _job_metrics.quantum_daemon_jr_entry
         ),
-        "Generator": _diff(_job_metrics.generator_exit, _job_metrics.generator_entry),
-        "Scheduler": _diff(_job_metrics.scheduler_exit, _job_metrics.scheduler_entry),
-        "Pass_runner": _diff(
+        "generator": _diff(_job_metrics.generator_exit, _job_metrics.generator_entry),
+        "scheduler": _diff(_job_metrics.scheduler_exit, _job_metrics.scheduler_entry),
+        "pass_runner": _diff(
             _job_metrics.pass_runner_exit, _job_metrics.pass_runner_entry
         ),
-        "Transpiler": _diff(
+        "transpiler": _diff(
             _job_metrics.transpiler_exit, _job_metrics.transpiler_entry
         ),
-        "Submitter": _diff(_job_metrics.submitter_exit, _job_metrics.submitter_entry),
-        "Pass_selection": _diff(
+        "submitter": _diff(_job_metrics.submitter_exit, _job_metrics.submitter_entry),
+        "pass_selection": _diff(
             _job_metrics.pass_selection_exit, _job_metrics.pass_selection_entry
         ),
-        "Knitter": _diff(_job_metrics.knitter_exit, _job_metrics.knitter_entry),
-        "Job_execution": _diff(
+        "knitter": _diff(_job_metrics.knitter_exit, _job_metrics.knitter_entry),
+        "job_execution": _diff(
             _job_metrics.job_execution_end, _job_metrics.job_execution_start
         ),
     }
