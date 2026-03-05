@@ -17,12 +17,15 @@ def _get_job(uuid: str) -> Optional["Job"]:  # type: ignore
 @blueprint.post("/job")
 @log_call
 def job_creation():
+
     bearer_token = request.headers["Authorization"]
     bearer_token.startswith("Bearer ")
     owner_id = database.tokens.verify_token(bearer_token[7:]).owner.identity
 
     _target = request.json["resource_name"]
+
     if _target is not None:
+
         available_targets = database.resources.fetch_all_target_specification_names()
         if not request.json["resource_name"] in available_targets:
             return jsonify("BACKEND NOT FOUND"), 404
@@ -55,6 +58,7 @@ def job_creation():
 @blueprint.get("/job/<uuid>")
 @log_call
 def job(uuid):
+
     _job = _get_job(uuid)
     if _job is None:
         return jsonify("JOB NOT FOUND"), 404
@@ -71,6 +75,7 @@ def job(uuid):
 @blueprint.get("/job/<uuid>/status")
 @log_call
 def job_get_status(uuid):
+
     _job = _get_job(uuid)
     if _job is None:
         return jsonify("JOB NOT FOUND"), 404
@@ -80,6 +85,7 @@ def job_get_status(uuid):
 @blueprint.get("/job/<uuid>/result")
 @log_call
 def job_result(uuid):
+
     _job = _get_job(uuid)
     if _job is None:
         return jsonify("JOB NOT FOUND"), 404
