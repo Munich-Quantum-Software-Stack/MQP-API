@@ -9,7 +9,7 @@ dependencies = [
     "flask>=2.3",
     "pony>=0.7",
     "eliot[journald]>=1.15.0",
-    "bqp-database-access>=0.3.1",
+    "bqp-database-access @ git+https://github.com/Munich-Quantum-Software-Stack/MQP-Database-Access.git",
     "gunicorn>=21.2.0",
 ]
 description = ""
@@ -53,8 +53,3 @@ env = [
     "QUANTUM_DB_HOST="
 ]
 pythonpath = ["."]
-
-[[tool.pdm.source]]
-name = "lrz_pypi"
-url = "http://pypi.quantum.lrz.de:8080/"
-verify_ssl = false

@@ -1,18 +1,14 @@
 [tool.pdm]
+distribution = false
 
 [project]
-name = ""
-version = ""
-description = ""
-authors = [
-    {name = "Martin Ruefenacht", email = "martin.ruefenacht@lrz.de"},
-]
-dependencies = [
-    "bqp-api>=0.1.15",
-]
+name = "bqp-api-server"
+version = "0.0.0"
 requires-python = ">=3.10,<3.12"
-license = {text = "MIT"}
-
-[[tool.pdm.source]]
-name = "lrz_pypi"
-url = "https://pypi.quantum.lrz.de/"
+dependencies = [
+    "flask>=2.3",
+    "pony>=0.7",
+    "eliot[journald]>=1.15.0",
+    "bqp-database-access @ git+https://github.com/Munich-Quantum-Software-Stack/MQP-Database-Access.git",
+    "gunicorn>=21.2.0",
+]
