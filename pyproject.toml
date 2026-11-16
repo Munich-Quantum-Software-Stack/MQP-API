@@ -11,6 +11,7 @@ dependencies = [
     "eliot[journald]>=1.15.0",
     "bqp-database-access @ git+https://github.com/Munich-Quantum-Software-Stack/MQP-Database-Access.git",
     "gunicorn>=21.2.0",
+    "pre-commit>=4.6.2",
 ]
 description = ""
 readme = "README.md"
@@ -53,3 +54,8 @@ env = [
     "QUANTUM_DB_HOST="
 ]
 pythonpath = ["."]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.5",
+]

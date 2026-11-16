@@ -7,7 +7,7 @@ from flask import Blueprint, g, request
 blueprint = Blueprint("hamiltonian_jobs", __name__)
 
 
-def _get_hamiltonian_job(uuid: str) -> Optional["HamiltonianJob"]:  # type: ignore
+def _get_hamiltonian_job(uuid: str) -> Optional["HamiltonianJob"]:  # type: ignore  # noqa: F821
     jobs = database.jobs.fetch_hamiltonian_job_by_identity(g.user.identity)
     job = next((x for x in jobs if str(x.id) == uuid), None)
     return job
