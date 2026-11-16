@@ -4,13 +4,13 @@ import bqp_database_access as database  # type: ignore
 from eliot import log_call  # type: ignore
 from flask import Blueprint, g, jsonify, request
 
+from .utils import check_circuit  # type: ignore
+
 blueprint = Blueprint("jobs", __name__)
 
 
-def _get_job(uuid: str) -> Optional["Job"]:  # type: ignore
-
+def _get_job(uuid: str) -> Optional["Job"]:  # type: ignore  # noqa: F821
     _job = database.jobs.fetch_result_by_job_id_and_identity(uuid, g.user.identity)
-
     return _job
 
 
@@ -41,6 +41,10 @@ def job_creation():
         _queued = request.json["queued"]
     except KeyError:
         _queued = False
+
+    if (err := check_circuit(request.json["circuit"])) is not None:
+        return jsonify(f"CIRCUIT REJECTED: {err}"), 422
+
     _job = database.jobs.create_job(
         shots=request.json["shots"],
         circuit=request.json["circuit"],
