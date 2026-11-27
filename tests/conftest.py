@@ -14,6 +14,8 @@ from werkzeug.datastructures import Headers
 
 from bqp_api import create_app
 
+TEST_TARGET = "test_target"
+
 
 def generate_token() -> str:
     return "".join(
@@ -43,6 +45,26 @@ def create_local_database(token: str) -> None:
         database_access.users.create_new_user_with_secret(
             "test_user", "test_password", "BASIC", "test@lrz.de", "LRZ", "quantum"
         )
+
+        # A target specification and a budget reachable through a user group are
+        # required before a circuit job can be created (see test_jobs.py).
+        quantum_db = open_database()
+        quantum_db.TargetSpecification(
+            name=TEST_TARGET, specification_type="resource", resource_name=TEST_TARGET
+        )
+        test_user = quantum_db.User.get(identity="test_user")
+        test_group = quantum_db.UserGroup(
+            name="test_group", owner=test_user, cost_modifier=1.0, users=[test_user]
+        )
+        quantum_db.Budget(
+            name="temp_budget",
+            owner=test_user,
+            credits=MAX_BUDGET_USAGE,
+            user_groups=[test_group],
+        )
+        # open_database() returns a new connection on every call, so commit here
+        # to release the SQLite write lock before the token is added.
+        quantum_db.commit()
 
         database_access.tokens.add_new_token(
             name="test_token",
