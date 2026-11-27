@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from . import hamiltonian_jobs, jobs, resources, job_metrics
+from . import hamiltonian_jobs, job_metrics, jobs, resources
 
 blueprint = Blueprint("version_1", __name__, url_prefix="/v1")
 blueprint.register_blueprint(resources.blueprint)

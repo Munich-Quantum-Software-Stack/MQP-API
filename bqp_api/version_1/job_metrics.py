@@ -1,8 +1,6 @@
-from typing import Optional
-
 import bqp_database_access as database  # type: ignore
 from eliot import log_call  # type: ignore
-from flask import Blueprint, g, request
+from flask import Blueprint
 
 blueprint = Blueprint("job_metrics", __name__)
 
@@ -11,8 +9,11 @@ blueprint = Blueprint("job_metrics", __name__)
 @log_call
 def job_metrics(uuid):
     try:
+        # TODO: bqp_database_access has no job_metrics module yet, so this lookup
+        # always raises and the endpoint returns 404.
+        # pylint: disable-next=no-member
         _job_metrics = database.job_metrics.fetch_timestamp_data_by_job_id(uuid)[0]
-    except Exception as e:
+    except Exception:
         return "JOB METRICS NOT FOUND", 404
 
     if _job_metrics is None:
